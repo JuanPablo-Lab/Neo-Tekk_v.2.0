@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Celulares | NeoTech</title>
+  <link href="css/bootstrap.min.css" rel="stylesheet" />
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
+  <link href="css/prettyPhoto.css" rel="stylesheet" />
+  <link href="css/price-range.css" rel="stylesheet" />
+  <link href="css/animate.css" rel="stylesheet" />
+  <link href="css/main.css" rel="stylesheet" />
+  <link href="css/nuevoMenu.css" rel="stylesheet" />
+  <link href="css/responsive.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+  <link rel="shortcut icon" href="imagenes/ico/favicon.ico" />
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+</head>
+
+<body>
+  <header id="header">
+    <!--header-->
+    <div class="header-middle">
+      <!--header-middle-->
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 clearfix">
+            <div class="logo pull-left">
+              <a href="Home.html"><img src="imagenes/logo/Logo.png" alt="" /></a>
+            </div>
+          </div>
+          <div class="col-md-8 clearfix">
+            <div class="shop-menu clearfix pull-right">
+              <ul class="nav navbar-nav">
+                <li><i class="far fa-user"></i> Usuario Actual:<a id="usuarioActual" href="#"></a></li>
+                <li><a href="Carrito.html"><i class="fa fa-shopping-cart"></i> Carrito</a></li>
+                <li><a id="cerrarSesion" href="#"><i class="fa fa-unlock"></i> Cerrar Sesión</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/header-middle-->
+
+    <div class="header-bottom">
+      <!--header-bottom-->
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-9">
+            <nav class="menuCSS3">
+              <ul>
+                <li><a href="Home.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="Celulares.html" class="active"><i class="fas fa-mobile-alt"></i> Celulares</a>
+                <li><a href="Portatiles.html"><i class="fas fa-laptop"></i> Portátiles</a></li>
+                <li><a href="Televisores.html"><i class="fas fa-tv"></i> Televisores</a></li>
+                <li><a href="VideoJuegos.html"><i class="fas fa-gamepad"></i> VideoJuegos</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/header-bottom-->
+  </header>
+  <!--/header-->
+
+  <section>
+    <div class="container">
+      <div class="row">
+
+        <div class="col-sm-12 padding-right">
+          <div class="product-details">
+            <!--product-details-->
+            <div class="col-sm-6">
+              <div class="view-product text-center">
+								<img src="imagenes/celulares/Xiaomi_RN_8Pro_1.png">
+							</div>
+            </div>
+            <div class="col-sm-6">
+              <div class="product-information">
+                <!--/product-information-->     
+                <h2>Celular Xiaomi Redmi Note 8 Pro 128Gb - Verde</h2>
+                <p>Ref: M1906G7G</p>
+                <!-- <img src="imagenes/detalle/rating.png" alt="" /> -->
+                <span>
+                  <span>COP $950.000</span>
+                  <p><label>Cantidad:</label></p>
+                </span>
+                <div class="cart_quantity_button">
+                  <a id='aumentar' class="cart_quantity_up" href="" onclick="aumentar()"> + </a>
+                  <input id="cantidad" class="cart_quantity_input" type="text" name="quantity" value="1"
+                    autocomplete="off" size="2">
+                  <a id='disminuir' class="cart_quantity_down" href="" onclick="disminuir()"> - </a>
+                </div>
+                <p><button type="button" class="btn btn-default cart" onclick="AgregarAlCarrito()"><i
+                      class="fa fa-shopping-cart"></i> AgregarAlCarrito</button></p>
+                <p><b>Disponibilidad:</b> 5 Unidades</p>
+                <p><b>Estado:</b> Nuevo</p>
+                <p><b>Marca:</b> XIAOMI</p>
+              </div>
+              <!--/product-information-->
+            </div>
+          </div>
+          <!--/product-details-->
+
+          <div class="category-tab shop-details-tab">
+            <!--category-tab-->
+            <div class="col-sm-12">
+              <ul class="nav nav-tabs">
+                <li class="active"><a href="#descripcion" data-toggle="tab">Descripción</a></li>
+                <li><a href="#especificaciones" data-toggle="tab">Especificaciones</a></li>
+              </ul>
+            </div>
+            <div class="tab-content">
+
+              <div class="tab-pane fade active in" id="descripcion">
+                <div class="col-sm-12">
+                  <h2>Xiaomi Redmi Note 8 Pro 128GB 4G</h2>
+                  <p>El diseño del Xiaomi NOTE 8 PRO se ha depurado bastante respecto a la generación anterior,
+                    Manteniedo el notch con forma de gota,
+
+                    Este equipo está optimizado para la eficiencia, fiabilidad y resistencia, este atractivo teléfono
+                    cabe cómodamente en una mano y se encuentra diseñado para adaptarse a sus necesidades,
+
+                    Además, Xiaomi ha vuelto a apostar por los degradados como opción cromática, lo cual le da un toque
+                    muy distintivo al terminal.</p>
+                  <h3>Características:</h3>
+                  <p>- Xiaomi con su Note 8 Pro quiere que recuerdes tus mejores momentos gracias a sus 4 cámaras sin
+                    preocuparte por la batería.</p>
+                  <p>- Vive la experiencia de todo un gamer gracias a su procesador con refrigeración líquida.</p>
+                  <p>- Batería de 4500 MaH con carga rápida.</p>
+                  <p>- Convierte tu teléfono en una cartera con su NFC</p>
+                </div>
+              </div>
+
+              <div class="tab-pane fade" id="especificaciones">
+                <div class="col-sm-12">
+                  <p>Pantalla 653 pulgadas Full HD+ Procesador MediaTek Helio G90T Cámara frontal 20 MP Memoria RAM 6GB
+                    Memoria ROM 128GB ampliables 256GB con micro SD Cámara trasera 64 MP + 8 MP (gran angular) + 2 MP
+                    (macro) + 2 MP (tele) Conectividad USB-C Sensor de huella Desbloqueo facial Conectividad 4G/LTE Dual
+                    SIM Bluetooth 5 WiFi 802.11 dual NFC infrarrojos y jack de auriculares 35mm. Sistema operativo
+                    Android 9 Pie con MIUI Batería 4.500 mAh con carga rápida de 18W
+                  </p>
+                  <h3>Ficha Técnica:</h3>
+                  <p>Gpu: ARM Mali G76 MC4</p>
+                  <p>Pantalla: 6.53” FHD+. con Dewdrop</p>
+                  <p>Cámara Trasera: 4 Camaras 64 MP + 8 MP +2MP + 2MP</p>
+                  <p>Cámara frontal: 20MP</p>
+                  <p>Memoria Interna: 128 GB</p>
+                  <p>Memoria RAM: de 6 GB</p>
+                  <p>Bateria integrada: 4500 mAh</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="footer">
+    <!--Footer-->
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-2">
+            <div class="companyinfo">
+              <h2><span>NEO</span>-TEKK</h2>
+              <p>
+                Encuentra los mejores artículos eléctronicos de última
+                generación.
+              </p>
+            </div>
+          </div>
+          <div class="col-sm-7">
+            <div class="col-sm-3">
+              <div class="video-gallery text-center">
+                <a href="Celulares.html">
+                  <div class="iframe-img">
+                    <img src="imagenes/footer/Celulares.png" alt="" />
+                  </div>
+                </a>
+                <p>Celulares</p>
+              </div>
+            </div>
+
+            <div class="col-sm-3">
+              <div class="video-gallery text-center">
+                <a href="Portatiles.html">
+                  <div class="iframe-img">
+                    <img src="imagenes/footer/Portatiles.png" alt="" />
+                  </div>
+                </a>
+                <p>Portátiles</p>
+              </div>
+            </div>
+
+            <div class="col-sm-3">
+              <div class="video-gallery text-center">
+                <a href="Televisores.html">
+                  <div class="iframe-img">
+                    <img src="imagenes/footer/Televisores.png" alt="" />
+                  </div>
+                </a>
+                <p>Televisores</p>
+              </div>
+            </div>
+
+            <div class="col-sm-3">
+              <div class="video-gallery text-center">
+                <a href="VideoJuegos.html">
+                  <div class="iframe-img">
+                    <img src="imagenes/footer/Videojuegos.png" alt="" />
+                  </div>
+                </a>
+                <p>Video Juegos</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="address">
+              <img src="imagenes/home/map.png" alt="" />
+              <p>Calle 72 # 15-89 Bogotá, Colombia</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="row">
+          <p class="pull-left">
+            Copyright © 2020 NET-TEKK S.A.S. Todos los derechos reservados.
+          </p>
+          <p class="pull-right">
+            Powered by<span><a target="_blank" href="#"> NeoTekk</a></span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!--/Footer-->
+
+  <script src="js/jquery.js"></script>
+  <script src="js/price-range.js"></script>
+  <script src="js/jquery.scrollUp.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.prettyPhoto.js"></script>
+  <script src="js/main.js"></script>
+
+  <script src="backEnd_js/common.js"></script>
+  <script src="backEnd_js/login.js"></script>
+  <script src="backEnd_js/productos.js"></script>
+  <script src="backEnd_js/carrito.js"></script>
+  <script src="backEnd_js/detalleProducto.js"></script>
+
+</body>
+
+</html>
