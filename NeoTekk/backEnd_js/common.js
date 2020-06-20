@@ -8,16 +8,8 @@ function ConectarApi() {
     Parse.serverURL = 'https://parseapi.back4app.com'; // This is your Server URL
     Parse.initialize(
         /*  Claves Victor */
-        /*  'AodUV80e7GsQrhBHrTq1bo2KyXAV0cPTIhWkn7zI', // This is your Application ID
-         '0SUXjA7DMxDp4lIZiuNMIy0OZDuWWQpxJuqKJVkh' // This is your Javascript key */
-
-         /*Clave NeoTekk V2.0*/
-     /*    'YBdO3Y2Lt9HGInu01FfyumuLO21Iln1PqaTCQzIy', // This is your Application ID
-        'rzl5Cn1ZuqNHv4AoYbp2J5tUuG4gtODXZO0wj28F' // This is your Javascript key */
-
-         /*Clave NeoTekk Pruebas*/
-         'plhNI7pAFk6UBfsEGKNGn37yKZv5aa3JBb20VcIW', // This is your Application ID
-         'dIVRSTC2JfrGDruZkM6JMXufr0tdQKTmkKtmqPdm' // This is your Javascript key
+         'AodUV80e7GsQrhBHrTq1bo2KyXAV0cPTIhWkn7zI', // This is your Application ID
+         '0SUXjA7DMxDp4lIZiuNMIy0OZDuWWQpxJuqKJVkh' // This is your Javascript key
     );
 }
 
