@@ -110,7 +110,7 @@ function BusquedaEnCategoria(categoria) {
 //Función para filtrar productos por marca
 function FiltrarProductosPorMarca(categoria) {
   event.preventDefault();
-  var marca = $('#txtFiltroMarca').val().toUpperCase();
+  var marca = $('#txtFiltroMarca').val();
  /*  marca = marca.charAt(0).toUpperCase() + marca.slice(1); */
 
   debugger;
