@@ -30,8 +30,7 @@ function RealizarPedido() {
 
         if (direccion != "") {
             //Aquí va el código para adicionalmente guardar la compra en base de datos si se alcanza.
-            MensajeGenericoIcono('Pedido realizado correctamente. Gracias por tu Compra', '', 'success', false, 'Ok');
-            window.location = 'Home.html';
+            MensajeConRedireccion('Pedido realizado correctamente. Gracias por tu Compra', 'Home.html');
         }
         else {
             MensajeGenericoIcono('Debe ingresar una dirección de envío', '', 'info', false, 'Ok');
