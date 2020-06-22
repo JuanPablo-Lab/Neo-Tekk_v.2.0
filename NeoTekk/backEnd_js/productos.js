@@ -1,111 +1,91 @@
 //Función para consultar todos los productos
 function BusquedaProductosHome() {
   event.preventDefault();
-  var busqueda = $('#txtBusquedaProducto').val();
+  var busqueda = $('#txtBasicSearch').val();
 
   if (busqueda != "") {
-
-    if (busqueda.toUpperCase() == "CELULARES") window.location = 'Celulares.html';
-    else if (busqueda.toUpperCase() == "PORTÁTILES" || busqueda.toUpperCase() == "PORTATILES") window.location = 'Portatiles.html';
-    else if (busqueda.toUpperCase() == "TELEVISORES") window.location = 'Televisores.html';
-    else if (busqueda.toUpperCase() == "VIDEOJUEGOS") window.location = 'Videojuegos.html';
-    else {
-      const Productos = Parse.Object.extend('Product');
-      const query = new Parse.Query(Productos);
-
-      /* query.equalTo("name", 'A string');
-      query.equalTo("trademark", 'A string');
-      query.equalTo("reference", 'A string');
-      query.equalTo("description", 'A string');
-      query.equalTo("specifications", 'A string');
-      query.equalTo("value", 1);
-      query.equalTo("photoUrl", 'A string');
-      query.equalTo("availability", 1);
-      query.equalTo("category", 'A string'); */
-
-      query.find().then((results) => {
-
-        const ProdutosEncontrados = JSON.stringify(results, undefined, 4);
-        debugger;
-        if (typeof document !== 'undefined') {
-          if (ProdutosEncontrados != "[]") {
-
-            //Mensaje de Prueba Consulta
-            MensajeConTextoRedireccion('Mensaje de prueba consulta desde Home', ProdutosEncontrados, 'ResultadoBusqueda.html');
-            //Aquí va el código para pintar el resultado de la búsqueda de los Productos
-
-
-
-          }
-          else {
-            window.location = 'ProductoNoEncontrado.html';
-          }
-        }
-      }, (error) => {
-        if (typeof document !== 'undefined') {
-          MensajeGenericoIcono('No se pudo realizar la consulta. Por favor intente nuevamente.', "Error: " + error.code + " " + error.message, 'error', false, 'Ok');
-        }
-      });
-    }
+    window.location = "Productos.html?name=" + busqueda;
   }
   else {
     MensajeGenericoIcono('El cuadro de búsqueda esta vacio', '', 'info', false, 'Ok');
   }
 }
 
-//Función para busqueda en cada categoría
-function BusquedaEnCategoria(categoria) {
-  event.preventDefault();
-  var buscar = $('#txtBusquedaEnCategoria').val().toUpperCase();
+function resolveBasicRequest() {
+  var byCategory = getParameterByName("cat");
+  var byName = getParameterByName("name");
 
-  if (buscar != "") {
-    if (buscar == "CELULARES") window.location = 'Celulares.html';
-    else if (buscar == "PORTÁTILES" || buscar == "PORTATILES") window.location = 'Portatiles.html';
-    else if (buscar == "TELEVISORES") window.location = 'Televisores.html';
-    else if (buscar== "VIDEOJUEGOS") window.location = 'Videojuegos.html';
-    else {
-      const Productos = Parse.Object.extend('Product');
-      const query = new Parse.Query(Productos);
-
-      /* query.equalTo("name", 'A string');
-      query.equalTo("trademark", 'A string');
-      query.equalTo("reference", 'A string');
-      query.equalTo("description", 'A string');
-      query.equalTo("specifications", 'A string');
-      query.equalTo("value", 1);
-      query.equalTo("photoUrl", 'A string');
-      query.equalTo("availability", 1); */
-      query.equalTo("category", categoria);
-      query.find().then((results) => {
-
-        const ProdutosEnCategoría = JSON.stringify(results, undefined, 4);
-
-        if (typeof document !== 'undefined') {
-          if (ProdutosEnCategoría != "[]") {
-
-            //Mensaje de Prueba
-            MensajeGenericoIcono('Mensaje de prueba consulta desde Categoría ' + categoria, ProdutosEnCategoría, 'success', false, 'Ok');
-
-            //Aquí va el código para pintar el resultado de la búsqueda de los productos en la categoría
-
-
-
-          }
-          else {
-            window.location = 'ProductoNoEncontrado.html';
-          }
-        }
-      }, (error) => {
-        if (typeof document !== 'undefined') {
-          MensajeGenericoIcono('No se pudo realizar la consulta. Por favor intente nuevamente.', "Error: " + error.code + " " + error.message, 'error', false, 'Ok');
-        }
-      });
-    }
-  }
-  else {
-    MensajeGenericoIcono('El cuadro de búsqueda esta vacio', '', 'info', false, 'Ok');
+  var results;
+  if (byCategory) {
+    results = getProductsBy("category", byCategory, injectProducts);
+  } else if (byName) {
+    results = getProductsBy("name", byName, injectProducts);
+  } else {
+    results = getProductsBy(null, null, injectProducts);
   }
 }
+
+function injectProducts(results) {
+  if (!results) {
+    window.location = "ProductoNoEncontrado.html";
+  }
+  if (typeof document != 'undefined') {
+    var productList = document.getElementById("productList");
+    productList.innerHTML = results;
+  }
+}
+
+function getProductsBy(filter, value, resultHandler) {
+  const Productos = Parse.Object.extend('Product');
+  const query = new Parse.Query(Productos);
+
+  var title = "";
+  if (filter) {
+    // query.contains(filter, value);
+    query.matches(filter, "(?i).{0,}(" + value + ").{0,}")
+    title = value + "...";
+  } else {
+    title = "Productos";
+  }
+
+  query.find().then((results) => {
+    if (results.length > 0) {
+      var result = "<h2 class=\"title text-center\">" + title + "</h2>\n";
+      result += results.map(createProductItem).reduce(reduceList);
+      resultHandler(result);
+    }
+    else {
+      resultHandler(null);
+    }
+  }, (error) => {
+    resultHandler(null);
+  });
+}
+
+function createProductItem(value, index, array) {
+  var result = "<div id=\"producto_" + index + "\" class=\"col-sm-4\">" + 
+    "<div class=\"product-image-wrapper\">" +
+      "<div class=\"single-products\">" +
+        "<div class=\"productinfo text-center\">" +
+          "<img id=\"imgProducto_" + index + "\" " +
+            "src=\"" + value.attributes["photoUrl"] + " alt=\"\" />" +
+              "<h2 id=\"precioProducto_" + index + ">" + value.attributes["value"] + "</h2>" +
+              "<p id=\"nombreProducto_" + index + "\">" + value.attributes["name"] + "</p>" +
+              "<p><a href=\"DetalleProducto.html?id="+ value.id + "\"><i class=\"fa fa-plus-square\"></i> Ver Especificaciones</a></p>" +
+              "<a href=\"#\" class=\"btn btn-default add-to-cart\" onclick=\"AgregarAlCarrito(" + value.attributes["objectId"] + ")\">" +
+              "<i class=\"fa fa-shopping-cart\"></i> Agregar al Carrito</a>" +
+        "</div>" +
+      "</div>" +
+    "</div>" +
+  "</div>\n"
+
+  return result
+}
+
+
+
+
+
 
 //Función para filtrar productos por marca
 function FiltrarProductosPorMarca(categoria) {
@@ -197,12 +177,3 @@ function FiltrarProductosPorPrecio(categoria) {
     MensajeGenericoIcono('Mensaje de prueba consulta rango de Precio','', 'success', false, 'Ok');
   }
 }
-
-//Función para cargar los datos del Producto para mostrar el detalle
-function CargarDetallesProducto() {
-  event.preventDefault();
-  //Aquí va el código para enviar los datos y visualizar el detalle del producto
-
-
-}
-

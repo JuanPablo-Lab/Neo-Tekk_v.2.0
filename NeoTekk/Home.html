@@ -55,21 +55,15 @@
 			  <div class="row">
 				<div class="col-sm-9">
 				  <nav class="menuCSS3">
-					<ul>
-					  <li><a href="Home.html"><i class="fas fa-home"></i> Home</a></li>
-					  <li><a href="Celulares.html" class="active"><i class="fas fa-mobile-alt"></i> Celulares</a>
-					  <li><a href="Portatiles.html"><i class="fas fa-laptop"></i> Portátiles</a></li>
-					  <li><a href="Televisores.html"><i class="fas fa-tv"></i> Televisores</a></li>
-					  <li><a href="VideoJuegos.html"><i class="fas fa-gamepad"></i> VideoJuegos</a>
-	  
-					  </li>
+					<ul id="categoriesMenu">
+						<!-- Esta sección será inyectada por el Controller de common -->
 					</ul>
 				  </nav>
 				</div>
 				<!-- Cuadro de Búsqueda -->
 				<div class="col-sm-2">
 				  <div class="search_box pull-right">
-					<input id="txtBusquedaProducto" type="text" placeholder="Buscar Producto" />
+					<input id="txtBasicSearch" type="text" placeholder="Buscar Producto" />
 				  </div>
 				</div>
 				<a href="#" class="btn btn-default search" onclick="BusquedaProductosHome()"><i class="fas fa-search" title="Enviar"></i></a>
@@ -155,7 +149,7 @@
 					<div class="col-sm-7">
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
-								<a href="Celulares.html">
+								<a href="Productos.html?cat=Celulares">
 									<div class="iframe-img">
 										<img src="imagenes/footer/Celulares.png" alt="" />
 									</div>
@@ -166,7 +160,7 @@
 
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
-								<a href="Portatiles.html">
+								<a href="Productos.html?cat=Portátiles">
 									<div class="iframe-img">
 										<img src="imagenes/footer/Portatiles.png" alt="" />
 									</div>
@@ -177,7 +171,7 @@
 
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
-								<a href="Televisores.html">
+								<a href="Productos.html?cat=Televisores">
 									<div class="iframe-img">
 										<img src="imagenes/footer/Televisores.png" alt="" />
 									</div>
@@ -188,7 +182,7 @@
 
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
-								<a href="VideoJuegos.html">
+								<a href="Productos.html?cat=Videojuegos">
 									<div class="iframe-img">
 										<img src="imagenes/footer/Videojuegos.png" alt="" />
 									</div>

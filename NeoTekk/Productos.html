@@ -19,11 +19,9 @@
   <link rel="shortcut icon" href="imagenes/ico/favicon.ico" />
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
 </head>
 
-<body onload="resolveLoadDetail()">
+<body onload="resolveBasicRequest()">
   <header id="header">
     <!--header-->
     <div class="header-middle">
@@ -36,12 +34,12 @@
             </div>
           </div>
           <div class="col-md-8 clearfix">
+            <div><label id="lblUsuarioActual" text=""></label></div>
             <div class="shop-menu clearfix pull-right">
               <ul class="nav navbar-nav">
                 <li><i class="far fa-user"></i> Usuario Actual:<a id="usuarioActual" href="#"></a></li>
                 <li><a href="Carrito.html"><i class="fa fa-shopping-cart"></i> Carrito</a></li>
-                <li><a id="cerrarSesion" href="#"><i class="fa fa-unlock"></i> Cerrar Sesión</a>
-                </li>
+                <li><a id="cerrarSesion" href="#"><i class="fa fa-unlock"></i> Cerrar Sesión</a></li>
               </ul>
             </div>
           </div>
@@ -61,6 +59,12 @@
               </ul>
             </nav>
           </div>
+          <div class="col-sm-2">
+            <div class="search_box pull-right">
+              <input id="txtBasicSearch" type="text" placeholder="Buscar en categoría" required />
+            </div>
+          </div>
+          <a href="#" class="btn btn-default search" onclick="BusquedaProductosHome()"><i class="fas fa-search" title="Enviar"></i></a>
         </div>
       </div>
     </div>
@@ -71,63 +75,38 @@
   <section>
     <div class="container">
       <div class="row">
+        <div class="col-sm-3">
+          <div class="left-sidebar">
+            <div class="brands_products">
+              <!--brands_products-->
+              <h2>Marcas</h2>
+              <div class="search_boxMarca pull-left">
+                <input id="txtFiltroMarca" type="text" placeholder="Escribe una marca..." required />
+                &nbsp;
+              </div>          
+              <a href="#" class="btn btn-default add-to-cart" onclick="FiltrarProductosPorMarca('Celulares')"><i class="fas fa-filter"></i> Filtrar
+                Marca</a>
+            </div>
+            <!--/brands_products-->
 
-        <div class="col-sm-12 padding-right">
-          <div class="product-details">
-            <!--product-details-->
-            <div class="col-sm-6">
-              <div class="view-product text-center">
-								<img src="images/" id="detailPicture">
-							</div>
-            </div>
-            <div class="col-sm-6">
-              <div class="product-information">
-                <!--/product-information-->     
-                <h2 id="detailName"></h2>
-                <p id="detailReference"></p>
-                <!-- <img src="imagenes/detalle/rating.png" alt="" /> -->
-                <span>
-                  <span id="detailValue"></span>
-                  <p><label>Cantidad:</label></p>
-                </span>
-                <div class="cart_quantity_button">
-                  <input type="hidden" id="detailAvailable">
-                  <a id='aumentar' class="cart_quantity_up" href="" onclick="aumentar()"> + </a>
-                  <input id="cantidad" class="cart_quantity_input" type="text" name="quantity" value="1"
-                    autocomplete="off" size="2">
-                  <a id='disminuir' class="cart_quantity_down" href="" onclick="disminuir()"> - </a>
-                </div>
-                <p id="detailAddToKart"></p>
-                <p><b>Disponibilidad:</b> <span id="detailQuantity"> </span> Unidades</p>
-                <p><b>Estado:</b> Nuevo</p>
-                <p><b>Marca:</b> <span id="detailTrademark"> </span></p>
+            <div class="price-range">
+              <!--price-range-->
+              <h2>Rango de Precio</h2>
+              <div class="well">
+                <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="1500000"
+                  data-slider-step="5" data-slider-value="[250000,850000]" id="sl2" /><br />
+                <b>$ 0</b> <b class="pull-right">$ 1'500.000</b>
               </div>
-              <!--/product-information-->
+              <a href="#" class="btn btn-default add-to-cart" onclick="FiltrarProductosPorPrecio('Celulares')"><i class="fas fa-filter"></i> Filtrar
+                Precio</a>
             </div>
+            <!--/price-range-->
           </div>
-          <!--/product-details-->
+        </div>
 
-          <div class="category-tab shop-details-tab">
-            <!--category-tab-->
-            <div class="col-sm-12">
-              <ul class="nav nav-tabs">
-                <li class="active"><a href="#descripcion" data-toggle="tab">Descripción</a></li>
-                <li><a href="#especificaciones" data-toggle="tab">Especificaciones</a></li>
-              </ul>
-            </div>
-            <div class="tab-content">
+        <div class="col-sm-9 padding-right">
+          <div class="features_items" id="productList">
 
-              <div class="tab-pane fade active in" id="descripcion">
-                <div class="col-sm-12" id="detailDescription">
-                </div>
-              </div>
-
-              <div class="tab-pane fade" id="especificaciones">
-                <div class="col-sm-12" id="detailSpecifications">
-                </div>
-              </div>
-
-            </div>
           </div>
         </div>
       </div>
@@ -143,7 +122,7 @@
             <div class="companyinfo">
               <h2><span>NEO</span>-TEKK</h2>
               <p>
-                Encuentra los mejores artículos eléctronicos de última
+                Encuentra los mejores artículos electrónicos de última
                 generación.
               </p>
             </div>
@@ -229,8 +208,6 @@
   <script src="backEnd_js/login.js"></script>
   <script src="backEnd_js/productos.js"></script>
   <script src="backEnd_js/carrito.js"></script>
-  <script src="backEnd_js/detalleProducto.js"></script>
-
 </body>
 
 </html>
