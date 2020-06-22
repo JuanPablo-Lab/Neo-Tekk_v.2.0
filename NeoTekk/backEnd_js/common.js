@@ -1,6 +1,7 @@
 $(document).ready(function () {
     ConectarApi();
     CargarUsuarioActual();
+    setMenu();
 });
 
 //Función para conectarse al proyecto Back4App V2.0
@@ -74,4 +75,42 @@ function formatCurrency(locales, currency, fractionDigits, number) {
         minimumFractionDigits: fractionDigits
     }).format(number);
     return formatted;
+}
+
+function setMenu() {
+    const Categorias = Parse.Object.extend('Category');
+    const query = new Parse.Query(Categorias);
+
+    query.find().then((results) => {
+        var listItems = "<li><a href=\"Home.html\"><i class=\"fas fa-home\"></i> Home</a></li>";
+        listItems += results.map(getCategoryList).reduce(reduceList);
+        
+        if (typeof document != 'undefined') {
+            var menuCategories = document.getElementById("categoriesMenu");
+            menuCategories.innerHTML = listItems;
+        } 
+      }, (error) => {
+        if (typeof document !== 'undefined') {
+          MensajeGenericoIcono('No se pudo realizar la consulta. Por favor intente nuevamente.', "Error: " + error.code + " " + error.message, 'error', false, 'Ok');
+        }
+      });
+}
+
+function getCategoryList(value, index, array) {
+    var result = "\n<li><a href=\"Productos.html?cat=" + value.attributes["name"] + "\"><i class=\"" + value.attributes["css"] + "\"></i> " + value.attributes["name"] + "</a></li>"
+    return result
+}
+
+function reduceList(total, value, index, array) {
+return total + value;
+}
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
