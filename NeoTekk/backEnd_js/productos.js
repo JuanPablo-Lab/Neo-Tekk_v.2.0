@@ -41,7 +41,6 @@ function getProductsBy(filter, value, resultHandler) {
 
   var title = "";
   if (filter) {
-    // query.contains(filter, value);
     query.matches(filter, "(?i).{0,}(" + value + ").{0,}")
     title = value + "...";
   } else {
@@ -88,92 +87,65 @@ function createProductItem(value, index, array) {
 
 
 //Función para filtrar productos por marca
-function FiltrarProductosPorMarca(categoria) {
+function FiltrarProductosPorMarca(resultHandler) {
   event.preventDefault();
   var marca = $('#txtFiltroMarca').val();
  /*  marca = marca.charAt(0).toUpperCase() + marca.slice(1); */
 
   debugger;
   if (marca != "") {
-    
     const Productos = Parse.Object.extend('Product');
     const query = new Parse.Query(Productos);
 
-    query.equalTo("trademark", marca);
-    query.equalTo("category", categoria);
+    query.fullText("trademark", marca, { caseSensitive: false });
+
+    var title = marca + "...";
 
     query.find().then((results) => {
-
-      const ProdutosMarca = JSON.stringify(results, undefined, 4);
-
-      if (typeof document !== 'undefined') {
-        if (ProdutosMarca != "[]") {
-
-          //Mensaje de Prueba
-          MensajeGenericoIcono('Mensaje de prueba consulta Marca', ProdutosMarca, 'success', false, 'Ok');
-
-          //Aquí va el código para pintar el resultado de la búsqueda de los productos que corresponden con la marca
-
-
-
-
-        }
-        else {
-          MensajeGenericoIcono('Sin resultados', 'No se encontraron productos con la marca indicada', 'error', false, 'Ok');
-        }
+      if (results.length > 0) {
+        var result = "<h2 class=\"title text-center\">" + title + "</h2>\n";
+        result += results.map(createProductItem).reduce(reduceList);
+        resultHandler(result);
+      }
+      else {
+        MensajeGenericoIcono('Sin resultados', 'No se encontraron productos con la marca indicada', 'error', false, 'Ok');
       }
     }, (error) => {
-      if (typeof document !== 'undefined') {
-        MensajeGenericoIcono('No se pudo realizar la consulta. Por favor intente nuevamente.', "Error: " + error.code + " " + error.message, 'error', false, 'Ok');
-      }
+      MensajeGenericoIcono('No se pudo realizar la consulta. Por favor intente nuevamente.', "Error: " + error.code + " " + error.message, 'error', false, 'Ok');
     });
-  }
-  else {
-    MensajeGenericoIcono('Escribe una Marca', '', 'info', false, 'Ok');
   }
 }
 
 //Función para filtrar productos por rangp de Precio
-function FiltrarProductosPorPrecio(categoria) {
+function FiltrarProductosPorPrecio(resultHandler) {
   event.preventDefault();
-  /* var rangoPrecio = $('#sl2').val(); PENDIENTE*/
-  var rangoPrecio = "";/* PENDIENTE TOMAR VALOR DE SLIDER */
+  var rangoPrecio = $('#sl2').val().split(",");
+  var minValue = parseInt(rangoPrecio[0]);
+  var maxValue = parseInt(rangoPrecio[1]);
 
   if (rangoPrecio != "") {
-    
     const Productos = Parse.Object.extend('Product');
-    const query = new Parse.Query(Productos);
+    const queryMin = new Parse.Query(Productos);
+    const queryMax = new Parse.Query(Productos);
 
-    /* query.equalTo("value", 1); PENDIENTE*/
-    query.equalTo("category", categoria);
+    queryMin.greaterThanOrEqualTo("value", minValue);
+    queryMax.lessThanOrEqualTo("value", maxValue);
+
+    const query = Parse.Query.and(queryMin, queryMax);
+
+    var title = "Valor entre COP $" + numberWithDots(minValue) + " Y $" + numberWithDots(maxValue);
 
     query.find().then((results) => {
-
-      const ProdutosPrecio = JSON.stringify(results, undefined, 4);
-
-      if (typeof document !== 'undefined') {
-        if (ProdutosPrecio != "[]") {
-
-          //Mensaje de Prueba
-          MensajeGenericoIcono('Mensaje de prueba consulta rango de Precio', ProdutosPrecio, 'success', false, 'Ok');
-
-          //Aquí va el código para pintar el resultado de la búsqueda de los productos que estan en el rango de precio
-
-
-
-
-        }
-        else {
-          MensajeGenericoIcono('Sin resultados', 'No se encontraron productos en el rango indicado', 'error', false, 'Ok');
-        }
+      if (results.length > 0) {
+        var result = "<h2 class=\"title text-center\">" + title + "</h2>\n";
+        result += results.map(createProductItem).reduce(reduceList);
+        resultHandler(result);
+      }
+      else {
+        MensajeGenericoIcono('Sin resultados', 'No se encontraron productos en el rango indicado', 'error', false, 'Ok');
       }
     }, (error) => {
-      if (typeof document !== 'undefined') {
-        MensajeGenericoIcono('No se pudo realizar la consulta. Por favor intente nuevamente.', "Error: " + error.code + " " + error.message, 'error', false, 'Ok');
-      }
+      MensajeGenericoIcono('No se pudo realizar la consulta. Por favor intente nuevamente.', "Error: " + error.code + " " + error.message, 'error', false, 'Ok');
     });
-  }
-  else {
-    MensajeGenericoIcono('Mensaje de prueba consulta rango de Precio','', 'success', false, 'Ok');
   }
 }
