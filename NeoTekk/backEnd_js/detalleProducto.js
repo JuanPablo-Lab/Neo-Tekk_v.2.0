@@ -43,10 +43,12 @@ function CargarDetallesProducto(objectId, resultHandler) {
       var formattedDescription = document.getElementById("detailDescription");
       var formattedSpecifications = document.getElementById("detailSpecifications");
       
+      var numericValue = parseFloat(result.attributes["value"]);
+      
       picture.src = result.attributes["photoUrl"];
       name.innerText = result.attributes["name"];
       reference.innerText = result.attributes["reference"];
-      formattedValue.innerText = "COP $" + result.attributes["value"];
+      formattedValue.innerText = "COP $" + numberWithDots(numericValue);
       available.value = result.attributes["availability"];
       quantity.innerText = result.attributes["availability"];
       trademark.innerText = result.attributes["trademark"];

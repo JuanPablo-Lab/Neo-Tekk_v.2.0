@@ -84,7 +84,7 @@
                 <input id="txtFiltroMarca" type="text" placeholder="Escribe una marca..." required />
                 &nbsp;
               </div>          
-              <a href="#" class="btn btn-default add-to-cart" onclick="FiltrarProductosPorMarca('Celulares')"><i class="fas fa-filter"></i> Filtrar
+              <a href="#" class="btn btn-default add-to-cart" onclick="FiltrarProductosPorMarca(injectProducts)"><i class="fas fa-filter"></i> Filtrar
                 Marca</a>
             </div>
             <!--/brands_products-->
@@ -93,11 +93,11 @@
               <!--price-range-->
               <h2>Rango de Precio</h2>
               <div class="well">
-                <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="1500000"
-                  data-slider-step="5" data-slider-value="[250000,850000]" id="sl2" /><br />
-                <b>$ 0</b> <b class="pull-right">$ 1'500.000</b>
+                <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="6000000"
+                  data-slider-step="1000" data-slider-value="[700000,1600000]" id="sl2" /><br />
+                <b>$ 0</b> <b class="pull-right">$ 6'000.000</b>
               </div>
-              <a href="#" class="btn btn-default add-to-cart" onclick="FiltrarProductosPorPrecio('Celulares')"><i class="fas fa-filter"></i> Filtrar
+              <a href="#" class="btn btn-default add-to-cart" onclick="FiltrarProductosPorPrecio(injectProducts)"><i class="fas fa-filter"></i> Filtrar
                 Precio</a>
             </div>
             <!--/price-range-->
