@@ -67,7 +67,7 @@ function createProductItem(value, index, array) {
       "<div class=\"single-products\">" +
         "<div class=\"productinfo text-center\">" +
           "<img id=\"imgProducto_" + index + "\" " +
-            "src=\"" + value.attributes["photoUrl"] + " alt=\"\" />" +
+            "src=\"" + value.attributes["photoUrl"] + "\" alt=\"\" />" +
               "<h2 id=\"precioProducto_" + index + ">" + value.attributes["value"] + "</h2>" +
               "<p id=\"nombreProducto_" + index + "\">" + value.attributes["name"] + "</p>" +
               "<p><a href=\"DetalleProducto.html?id="+ value.id + "\"><i class=\"fa fa-plus-square\"></i> Ver Especificaciones</a></p>" +

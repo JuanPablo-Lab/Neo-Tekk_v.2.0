@@ -77,11 +77,27 @@ function formatCurrency(locales, currency, fractionDigits, number) {
     return formatted;
 }
 
-function setMenu() {
+function getCategories(resultHandler) {
     const Categorias = Parse.Object.extend('Category');
     const query = new Parse.Query(Categorias);
 
     query.find().then((results) => {
+        resultHandler(results, null);
+      }, (error) => {
+        resultHandler(null, error);
+      });
+}
+
+function setMenu() {
+    getCategories(resolveMenu);
+}
+
+function resolveMenu(results, error) {
+    if (error) {
+        if (typeof document !== 'undefined') {
+            MensajeGenericoIcono('No se pudo realizar la consulta. Por favor intente nuevamente.', "Error: " + error.code + " " + error.message, 'error', false, 'Ok');
+          }
+    } else {
         var listItems = "<li><a href=\"Home.html\"><i class=\"fas fa-home\"></i> Home</a></li>";
         listItems += results.map(getCategoryList).reduce(reduceList);
         
@@ -89,11 +105,7 @@ function setMenu() {
             var menuCategories = document.getElementById("categoriesMenu");
             menuCategories.innerHTML = listItems;
         } 
-      }, (error) => {
-        if (typeof document !== 'undefined') {
-          MensajeGenericoIcono('No se pudo realizar la consulta. Por favor intente nuevamente.', "Error: " + error.code + " " + error.message, 'error', false, 'Ok');
-        }
-      });
+    }
 }
 
 function getCategoryList(value, index, array) {
@@ -102,7 +114,7 @@ function getCategoryList(value, index, array) {
 }
 
 function reduceList(total, value, index, array) {
-return total + value;
+    return total + value;
 }
 
 function getParameterByName(name, url) {
@@ -117,4 +129,21 @@ function getParameterByName(name, url) {
 
 function numberWithDots(x) {
     return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
+}
+
+function resolveAdminCategories(results, error) {
+    if (!error) {
+        var listItems = "<option value=\"\">Seleccione un categoría para el Producto...</option>";
+        listItems += results.map(getCategoriesOptions).reduce(reduceList);
+
+        if (typeof document != 'undefined') {
+            var dropDown = document.getElementById("ddlCategorias");
+            dropDown.innerHTML = listItems;
+        }
+    }
+}
+
+function getCategoriesOptions(value, index, array) {
+    var result = "\n<option value=\"" + value.attributes["name"] + "\">" + value.attributes["name"] + "</option>";
+    return result;
 }

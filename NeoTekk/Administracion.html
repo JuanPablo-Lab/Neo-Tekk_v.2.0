@@ -21,7 +21,7 @@
 </head>
 <!--/head-->
 
-<body>
+<body onload="getCategories(resolveAdminCategories)">
 	<header id="header">
 		<!--header-->
 		<div class="header-middle">
@@ -76,11 +76,6 @@
 									<td><label for="ddlCategorias">Categoría:</label></td>
 									<td>
 										<select id="ddlCategorias" name="ddlCategorias" required>
-											<option value="">Seleccione un categoría para el Producto...</option>
-											<option value="Celulares">Celulares</option>
-											<option value="Portátiles">Portátiles</option>
-											<option value="Televisores">Televisores</option>
-											<option value="VideoJuegos">Video Juegos</option>
 										</select>
 									</td>
 								</tr>
