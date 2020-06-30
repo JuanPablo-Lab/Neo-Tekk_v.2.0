@@ -30,43 +30,58 @@ function CargarDetallesProducto(objectId, resultHandler) {
     });
   }
   
-  function injectProductDetails(result) {
-    if (typeof document != 'undefined') {
-      var picture = document.getElementById("detailPicture");
-      var name = document.getElementById("detailName");
-      var reference = document.getElementById("detailReference");
-      var formattedValue = document.getElementById("detailValue");
-      var available = document.getElementById("detailAvailable");
-      var addToKart = document.getElementById("detailAddToKart");
-      var quantity = document.getElementById("detailQuantity");
-      var trademark = document.getElementById("detailTrademark");
-      var formattedDescription = document.getElementById("detailDescription");
-      var formattedSpecifications = document.getElementById("detailSpecifications");
-      
-      var numericValue = parseFloat(result.attributes["value"]);
-      
-      picture.src = result.attributes["photoUrl"];
-      name.innerText = result.attributes["name"];
-      reference.innerText = result.attributes["reference"];
-      formattedValue.innerText = "COP $" + numberWithDots(numericValue);
-      available.value = result.attributes["availability"];
-      quantity.innerText = result.attributes["availability"];
-      trademark.innerText = result.attributes["trademark"];
+function injectProductDetails(result) {
+  if (typeof document != 'undefined') {
+    var productId = document.getElementById("productId");
+    var picture = document.getElementById("detailPicture");
+    var name = document.getElementById("detailName");
+    var reference = document.getElementById("detailReference");
+    var detailNumericCost = document.getElementById("detailNumericCost");
+    var formattedValue = document.getElementById("detailValue");
+    var available = document.getElementById("detailAvailable");
+    var addToKart = document.getElementById("detailAddToKart");
+    var quantity = document.getElementById("detailQuantity");
+    var trademark = document.getElementById("detailTrademark");
+    var formattedDescription = document.getElementById("detailDescription");
+    var formattedSpecifications = document.getElementById("detailSpecifications");
+    
+    var numericValue = parseFloat(result.attributes["value"]);
+    
+    productId.value = result.id;
+    picture.src = result.attributes["photoUrl"];
+    name.innerText = result.attributes["name"];
+    reference.innerText = result.attributes["reference"];
+    detailNumericCost.value = numericValue;
+    formattedValue.innerText = "COP $" + numberWithDots(numericValue);
+    available.value = result.attributes["availability"];
+    quantity.innerText = result.attributes["availability"];
+    trademark.innerText = result.attributes["trademark"];
+
+    formattedDescription.innerHTML = result.attributes["description"];
+    formattedSpecifications.innerHTML = result.attributes["specifications"];
+
+    addToKart.innerHTML = "<button type=\"button\" class=\"btn btn-default cart\" onclick=\"invokeAddToKart()\">" +
+      "<i class=\"fa fa-shopping-cart\"></i> Agregar Al Carrito</button>";
+  }
+}
   
-      formattedDescription.innerHTML = result.attributes["description"];
-      formattedSpecifications.innerHTML = result.attributes["specifications"];
-  
-      addToKart.innerHTML = "<button type=\"button\" class=\"btn btn-default cart\" onclick=\"AgregarAlCarrito(" + result.id + ")\">" +
-        "<i class=\"fa fa-shopping-cart\"></i> Agregar Al Carrito</button>";
-  
-    }
-  }  
+function invokeAddToKart() {
+  var productId = document.getElementById("productId");
+  var picture = document.getElementById("detailPicture");
+  var name = document.getElementById("detailName");
+  var detailNumericCost = document.getElementById("detailNumericCost");
+  var quantity = document.getElementById("cantidad");
+
+  AgregarAlCarrito(productId.value, name.innerText, picture.src, quantity.value, detailNumericCost.value);
+}
 
 /* Para cantidad de unidades */
 function aumentar() { // se crean la funcion y se agrega al evento onclick en en la etiqueta button con id aumentar
     event.preventDefault();
-    var cantidad = document.getElementById('cantidad').value;
-    var available = document.getElementById("detailAvailable").value;
+    var cantidadStr = document.getElementById('cantidad').value;
+    var cantidad = parseInt(cantidadStr);
+    var availableStr = document.getElementById("detailAvailable").value;
+    var available = parseInt(availableStr);
 
     if (cantidad < available) {
         document.getElementById('cantidad').value = ++cantidad; //se obtiene el valor del input, y se incrementa en 1 el valor que tenga.
@@ -75,7 +90,8 @@ function aumentar() { // se crean la funcion y se agrega al evento onclick en en
 
 function disminuir() { 
     event.preventDefault();  
-    var cantidad = document.getElementById('cantidad').value;
+    var cantidadStr = document.getElementById('cantidad').value;
+    var cantidad = parseInt(cantidadStr);
 
     if(cantidad > 1)
     {
