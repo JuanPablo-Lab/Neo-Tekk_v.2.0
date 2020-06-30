@@ -22,7 +22,7 @@
 </head>
 <!--/head-->
 
-<body>
+<body onload="loadKart()">
 	<header id="header">
 		<!--header-->
 		<div class="header-middle">
@@ -55,13 +55,8 @@
 				<div class="row">
 					<div class="col-sm-9">
 						<nav class="menuCSS3">
-							<ul>
-								<li><a href="Home.html"><i class="fas fa-home"></i> Home</a></li>
-								<li><a href="Celulares.html" class="active"><i class="fas fa-mobile-alt"></i>
-										Celulares</a>
-								<li><a href="Portatiles.html"><i class="fas fa-laptop"></i> Portátiles</a></li>
-								<li><a href="Televisores.html"><i class="fas fa-tv"></i> Televisores</a></li>
-								<li><a href="VideoJuegos.html"><i class="fas fa-gamepad"></i> VideoJuegos</a></li>
+							<ul id="categoriesMenu">
+								<!-- Esta sección será inyectada por el Controller de common -->
 							</ul>
 						</nav>
 					</div>
@@ -74,6 +69,7 @@
 	<section id="cart_items">
 		<div class="container">
 			<div class="table-responsive cart_info">
+				<input type="hidden" id="kartId">
 				<table class="table table-condensed">
 					<thead>
 						<tr class="cart_menu">
@@ -85,86 +81,8 @@
 							<td></td>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<td class="cart_product">
-								<a href=""><img src="imagenes/carrito/Honor.png" alt=""></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="">Celular Huawei Honor 10</a></h4>
-								<p>ID: 1089772</p>
-							</td>
-							<td class="cart_price">
-								<p>$899.000</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<!-- <a class="cart_quantity_up" href=""> + </a> -->
-									<input class="cart_quantity_input" type="text" name="quantity" value="1"
-										autocomplete="off" size="2" disabled>
-									<!-- <a class="cart_quantity_down" href=""> - </a> -->
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$899.000</p>
-							</td>
-							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-							</td>
-						</tr>
-
-						<tr>
-							<td class="cart_product">
-								<a href=""><img src="imagenes/carrito/AC_ps4.png" alt=""></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="">Juego Assassin Creed Valhala - Ps4</a></h4>
-								<p>ID: 1089772</p>
-							</td>
-							<td class="cart_price">
-								<p>$269.900</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<!-- <a class="cart_quantity_up" href=""> + </a> -->
-									<input class="cart_quantity_input" type="text" name="quantity" value="1"
-										autocomplete="off" size="2" disabled>
-									<!-- <a class="cart_quantity_down" href=""> - </a> -->
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$269.900</p>
-							</td>
-							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-							</td>
-						</tr>
-						<tr>
-							<td class="cart_product">
-								<a href=""><img src="imagenes/carrito/Asus_R5.png" alt=""></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="">Portátil Asus M509 Ryzen 5</a></h4>
-								<p>ID: 1089772</p>
-							</td>
-							<td class="cart_price">
-								<p>$1'699.000</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<!-- <a class="cart_quantity_up" href=""> + </a> -->
-									<input class="cart_quantity_input" type="text" name="quantity" value="1"
-										autocomplete="off" size="2" disabled>
-									<!-- <a class="cart_quantity_down" href=""> - </a> -->
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$1'699.000</p>
-							</td>
-							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-							</td>
-						</tr>
+					<tbody id="kartProductsList">
+						<!-- Esta sección será inyectada por el Controller de Carrito -->
 					</tbody>
 				</table>
 			</div>
@@ -182,7 +100,7 @@
 							<form action="#">
 								<h2>Datos de envío</h2>
 								<label>Ciudad</label>
-								<select>
+								<select id="kartCity">
 									<option>Bogotá D.C</option>
 									<option>Barranquilla</option>
 									<option>Cali</option>
@@ -200,10 +118,10 @@
 				<div class="col-sm-6">
 					<div class="total_area">
 						<ul>
-							<li>Sub Total <span>$2'867.900</span></li>
-							<li>Iva <span>$544.900</span></li>
+							<li>Sub Total <span id="kartSubtotal">$0.0</span></li>
+							<li>Iva <span id="kartTaxes">$0.0</span></li>
 							<li>Costo de Envío <span>Gratis</span></li>
-							<li>Total <span>$3'412.800</span></li>
+							<li>Total <span id="kartGrandTotal">$0.0</span></li>
 						</ul>					
 						<a class="btn btn-default check_out" type="submit" href="#" onclick="RealizarPedido()">Realizar Pedido</a>
 					</div>

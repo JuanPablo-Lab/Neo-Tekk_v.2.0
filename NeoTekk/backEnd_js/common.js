@@ -147,3 +147,9 @@ function getCategoriesOptions(value, index, array) {
     var result = "\n<option value=\"" + value.attributes["name"] + "\">" + value.attributes["name"] + "</option>";
     return result;
 }
+
+function getCurrentUserId() {
+    const userId = sessionStorage.getItem('userId');
+
+    return userId;
+}

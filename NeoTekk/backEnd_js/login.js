@@ -23,6 +23,7 @@ function Login() {
             MensajeConRedireccion('Bienvenido ' + user.get("firstName"), 'Home.html');
         }
         sessionStorage.setItem('user', user.get("firstName"));
+        sessionStorage.setItem('userId', user.id);
     }).catch(function (error) {
         if (error.code == 101) {
             MensajeGenericoIcono('Usuario o Contraseña incorrectos. Por favor verifica e intenta nuevamente.', '', 'error', false, 'Ok');
@@ -87,6 +88,7 @@ function CerrarSesion() {
             if (result.value) {
                 window.location = "Login.html";
                 sessionStorage.removeItem("user");
+                sessionStorage.removeItem("userId");
             }
         })
     }
