@@ -1,7 +1,10 @@
 $(document).ready(function () {
     ConectarApi();
     CargarUsuarioActual();
-    setMenu();
+
+    if (sessionStorage.getItem('user') != "Admin") {
+        setMenu();
+    }
 });
 
 //Función para conectarse al proyecto Back4App V2.0
@@ -77,6 +80,17 @@ function formatCurrency(locales, currency, fractionDigits, number) {
     return formatted;
 }
 
+//Funcion para dar formato de moneda
+function FormatoMoneda(numero) {
+    const formatoPesos = new Intl.NumberFormat('es-CO', {
+        style: 'currency',
+        currency: 'COP',
+        minimumFractionDigits: 0
+    })
+
+    return formatoPesos.format(numero);
+}
+
 function getCategories(resultHandler) {
     const Categorias = Parse.Object.extend('Category');
     const query = new Parse.Query(Categorias);
@@ -134,11 +148,16 @@ function numberWithDots(x) {
 function resolveAdminCategories(results, error) {
     if (!error) {
         var listItems = "<option value=\"\">Seleccione un categoría para el Producto...</option>";
+        var listItemsEdit = "<option value=\"\">Categoría del Producto</option>";
         listItems += results.map(getCategoriesOptions).reduce(reduceList);
+        listItemsEdit += results.map(getCategoriesOptions).reduce(reduceList);
 
         if (typeof document != 'undefined') {
             var dropDown = document.getElementById("ddlCategorias");
+            var dropDownEdit = document.getElementById("ddlCategoriasEdit");
+
             dropDown.innerHTML = listItems;
+            dropDownEdit.innerHTML = listItemsEdit;
         }
     }
 }
@@ -150,6 +169,5 @@ function getCategoriesOptions(value, index, array) {
 
 function getCurrentUserId() {
     const userId = sessionStorage.getItem('userId');
-
     return userId;
 }

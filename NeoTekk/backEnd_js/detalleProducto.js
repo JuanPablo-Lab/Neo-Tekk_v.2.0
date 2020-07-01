@@ -76,7 +76,8 @@ function invokeAddToKart() {
 }
 
 /* Para cantidad de unidades */
-function aumentar() { // se crean la funcion y se agrega al evento onclick en en la etiqueta button con id aumentar
+// se crea la función y se agrega al evento onclick en la etiqueta button con id aumentar
+function aumentar() { 
     event.preventDefault();
     var cantidadStr = document.getElementById('cantidad').value;
     var cantidad = parseInt(cantidadStr);
