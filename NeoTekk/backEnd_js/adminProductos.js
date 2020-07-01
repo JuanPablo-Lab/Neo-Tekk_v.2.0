@@ -1,9 +1,32 @@
 $(document).ready(function () {
     FormatoValor();
+    GetProducts(ResolveAdminProducts);
 });
 
 //Función para dar formato a moneda local (es-CO): Español Colombia 
 function FormatoValor() {
+    document.getElementById("txtValor").onkeyup = function () {
+        var numero = this.value;
+        if (isNaN(numero)) {
+            document.getElementById("txtValor").value = numero.substring(0, numero.length - 1);
+            return false;
+        } else {
+            document.getElementById("txtValor").value = numero;
+            return true;
+        }
+    }
+
+    document.getElementById("txtValorEdit").onkeyup = function () {
+        var numero = this.value;
+        if (isNaN(numero)) {
+            document.getElementById("txtValorEdit").value = numero.substring(0, numero.length - 1);
+            return false;
+        } else {
+            document.getElementById("txtValorEdit").value = numero;
+            return true;
+        }
+    }
+
     document.getElementById("txtValor").onchange = function () {
 
         const formatoPesos = new Intl.NumberFormat('es-CO', {
@@ -13,6 +36,17 @@ function FormatoValor() {
         })
 
         document.getElementById("txtValor").value = formatoPesos.format(this.value);
+    }
+
+    document.getElementById("txtValorEdit").onchange = function () {
+
+        const formatoPesos = new Intl.NumberFormat('es-CO', {
+            style: 'currency',
+            currency: 'COP',
+            minimumFractionDigits: 0
+        })
+
+        document.getElementById("txtValorEdit").value = formatoPesos.format(this.value);
     }
 }
 
@@ -24,8 +58,7 @@ function MostrarRegistrarProducto() {
     if (registrar.style.display == "none") {
         registrar.style.display = "block";
         document.getElementById('frmRegistrar').reset();
-    }
-    else {
+    } else {
         registrar.style.display = "none";
     }
 }
@@ -38,15 +71,13 @@ function MostrarEditarProducto() {
     if (editar.style.display == "none") {
         editar.style.display = "block";
         document.getElementById('frmEditar').reset();
-    }
-    else {
+    } else {
         editar.style.display = "none";
     }
 }
 
 //Función para crear un producto nuevo
 function RegistrarProducto() {
-
     if (sessionStorage.getItem('user') != null) {
         /* var producto = new Parse.Product(); */
         const Productos = Parse.Object.extend('Product');
@@ -69,102 +100,153 @@ function RegistrarProducto() {
             MensajeGenericoIcono('El producto ' + producto.get("name") + ' se ha creado correctamente', '', 'success', false, 'Ok');
             LimpiarFormulario();
         }).catch(function (error) {
-            MensajeGenericoIcono('Error registrando el Producto. Por favor intentalo nuevamente', '', 'error', false, 'Ok');
+            MensajeGenericoIcono('Error registrando el Producto. Por favor inténtalo nuevamente', '', 'error', false, 'Ok');
             console.log("Error: " + error.code + " " + error.message);
         });
-    }
-    else {
+    } else {
         MensajeGenericoIcono('Debes iniciar sesión como Administrador', 'No puedes agregar Productos', 'info', false, 'Ok');
     }
 }
 
-
-
-//PENDIENTE
-//Función para editar un producto
-function EditarProducto() {
-    const Productos = Parse.Object.extend('Productos');
+//Función para cargar el Listado de Productos
+function GetProducts(resultHandler) {
+    const Productos = Parse.Object.extend('Product');
     const query = new Parse.Query(Productos);
+    debugger;
 
-    // here you put the objectId that you want to update
-    query.get('xKue915KBG').then((object) => {
-        object.set('Nombre', 'A string');
-        object.set('Referencia', 'A string');
-        object.set('Marca', 'A string');
-        object.set('Descripcion', 'A string');
-        object.set('Especificaciones', 'A string');
-        object.set('Valor', 1);
-        object.set('Disponibilidad', 1);
-        object.set('UrlFoto', 'A string');
-        object.set('Categoria', 'A string');
-
-        object.save().then((response) => {
-            // You can use the "get" method to get the value of an attribute
-            // Ex: response.get("<ATTRIBUTE_NAME>")
-            if (typeof document !== 'undefined') document.write(`Updated Productos: ${JSON.stringify(response)}`);
-            console.log('Updated Productos', response);
-        }, (error) => {
-            if (typeof document !== 'undefined') document.write(`Error while updating Productos: ${JSON.stringify(error)}`);
-            console.error('Error while updating Productos', error);
-        });
+    query.ascending("name");
+    query.find().then((results) => {
+        debugger;
+        resultHandler(results, null);
+    }, (error) => {
+        resultHandler(null, error);
     });
+}
+
+function ResolveAdminProducts(results, error) {
+    if (!error) {
+        var listItems = "<option value=\"\">Seleccione un Producto...</option>";
+        listItems += results.map(getProductsOptions).reduce(reduceList);
+
+        if (typeof document != 'undefined') {
+            var dropDown = document.getElementById("ddlProductos");
+
+            dropDown.innerHTML = listItems;
+        }
+    }
+}
+
+function getProductsOptions(value, index, array) {
+    debugger;
+    var result = "\n<option value=\"" + value.id + "\">" + value.attributes["name"] + "</option>";
+    return result;
+}
+
+//Cargar la información del Producto seleccionado de la lista
+function SetDataByProductId() {
+    var productId = $('#ddlProductos').val();
+    const Productos = Parse.Object.extend('Product');
+    const query = new Parse.Query(Productos);
+    debugger;
+
+    query.get(productId).then((product) => {
+        document.getElementById("txtIdProductoEdit").value = productId;
+        document.getElementById("txtNomProductoEdit").value = product.get("name");
+        document.getElementById("ddlCategoriasEdit").value = product.attributes["category"];
+        document.getElementById("txtReferenciaEdit").value = product.attributes["reference"];
+        document.getElementById("txtMarcaEdit").value = product.attributes["trademark"];
+        document.getElementById("txtDescripcionEdit").value = product.attributes["description"];
+        document.getElementById("txtEspecificacionesEdit").value = product.attributes["specifications"];
+        document.getElementById("txtValorEdit").value = product.attributes["value"];
+        document.getElementById("txtDisponibilidadEdit").value = product.attributes["availability"];
+        document.getElementById("txtUrlImagenEdit").value = product.attributes["photoUrl"];
+    }).catch(function (error) {
+        MensajeGenericoIcono('Error cargando la información del Producto. Por favor intentalo nuevamente', '', 'error', false, 'Ok');
+        console.log("Error: " + error.code + " " + error.message);
+    });
+}
+
+//Función para editar un producto
+function ActualizarProducto() {
+    if (sessionStorage.getItem('user') != null) {
+        var productId = $('#txtIdProductoEdit').val();
+        const Productos = Parse.Object.extend('Product');
+        const query = new Parse.Query(Productos);
+
+        var currency = $('#txtValorEdit').val();
+        var number = Number(currency.replace(/[^0-9\,-]+/g, ""));
+        debugger;
+        query.get(productId).then((object) => {
+            debugger;
+            object.set('name', $('#txtNomProductoEdit').val());
+            object.set('category', $('#ddlCategoriasEdit').val());
+            object.set('reference', $('#txtReferenciaEdit').val());
+            object.set('trademark', $('#txtMarcaEdit').val());
+            object.set('description', $('#txtDescripcionEdit').val());
+            object.set('specifications', $('#txtEspecificacionesEdit').val());
+            object.set('value', number);
+            object.set('availability', parseInt($('#txtDisponibilidadEdit').val()));
+            object.set('photoUrl', $('#txtUrlImagenEdit').val());
+            debugger;
+            object.save().then((response) => {
+                debugger;
+                MensajeGenericoIcono('El producto ' + object.get("name") + ' se ha actualizado correctamente', '', 'success', false, 'Ok');
+                GetProducts(ResolveAdminProducts);
+                LimpiarFormulario();
+            }, (error) => {
+                MensajeGenericoIcono('Error actualizando el Producto. Por favor intentalo nuevamente', '', 'error', false, 'Ok');
+                console.log("Error: " + error.code + " " + error.message);
+            });
+        });
+    } else {
+        MensajeGenericoIcono('Debes iniciar sesión como Administrador', 'No puedes editar Productos', 'info', false, 'Ok');
+    }
 }
 
 //Función para eliminar un producto
 function EliminarProducto() {
-    const MyCustomClass = Parse.Object.extend('MyCustomClassName');
-    const query = new Parse.Query(MyCustomClass);
-    
-    // here you put the objectId that you want to delete
-    query.get('xKue915KBG').then((object) => {
-        object.destroy().then((response) => {
-            if (typeof document !== 'undefined') document.write(`Deleted ParseObject: ${JSON.stringify(response)}`);
-            console.log('Deleted ParseObject', response);
-        }, (error) => {
-            if (typeof document !== 'undefined') document.write(`Error while deleting ParseObject: ${JSON.stringify(error)}`);
-            console.error('Error while deleting ParseObject', error);
-        });
-    });
-}
+    var productId = $('#ddlProductos').val();
 
-function ConsultarProductoPorCategoria(nombreCategoria) {
-    debugger;
-    const Productos = Parse.Object.extend('Product');
-    /*      const query = new Parse.Query(Productos);
+    if (sessionStorage.getItem('user') != null) {
+        debugger;
+        if (productId == "") {
+            MensajeGenericoIcono('Debe seleccionar un Producto', '', 'info', false, 'Ok');
+        } else {
+            var productId = $('#txtIdProductoEdit').val();
+            const Productos = Parse.Object.extend('Product');
+            const query = new Parse.Query(Productos);
+            debugger;
 
-         query.equalTo("Nombre", 'A string');
-         query.equalTo("Referencia", 'A string');
-         query.equalTo("Marca", 'A string');
-         query.equalTo("Descripcion", 'A string');
-         query.equalTo("Especificaciones", 'A string');
-         query.equalTo("Valor", 1);
-         query.equalTo("Disponibilidad", 1);
-         query.equalTo("UrlFoto", 'A string');
-         query.equalTo("Categoria", 'A string'); */
-
-    query.find().then((results) => {
-        if (typeof document !== 'undefined') {
-            document.getElementById('txtDescripcion1').innerHTML = nombreTabla + ':' + JSON.stringify(results, undefined, 4);
+            Swal.fire({
+                title: '¿Esta seguro de eliminar el Producto seleccionado?',
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+                if (result.value) {
+                    query.get(productId).then((object) => {
+                        object.destroy().then((response) => {
+                            MensajeGenericoIcono('El producto se ha eliminado correctamente', '', 'success', false, 'Ok');
+                            GetProducts(ResolveAdminProducts);
+                            LimpiarFormulario();
+                        }, (error) => {
+                            MensajeGenericoIcono('Error eliminando el Producto. Por favor intentalo nuevamente', '', 'error', false, 'Ok');
+                            console.log("Error: " + error.code + " " + error.message);
+                        });
+                    });
+                }
+            })
         }
-    }, (error) => {
-        if (typeof document !== 'undefined') {
-            document.getElementById('txtDescripcion1').innerHTML = JSON.stringify(error, undefined, 4);
-        }
-    });
+    } else {
+        MensajeGenericoIcono('Debes iniciar sesión como Administrador', 'No puedes eliminar Productos', 'info', false, 'Ok');
+    }
 }
-
-function ConsultarProductoPorCategoria2(categoria) {
-    var Productos = new Parse.Product();
-
-    Productos.query.equalTo("category", categoria).find().then((result) => {
-        document.getElementById('txtDescripcion1').innerHTML = nombreTabla + ':' + JSON.stringify(results, undefined, 4);
-    });
-}
-//PENDIENTE
-
-
 
 //Función para limpiar campos
 function LimpiarFormulario() {
     document.getElementById("frmRegistrar").reset();
+    document.getElementById("frmEditar").reset();
 }

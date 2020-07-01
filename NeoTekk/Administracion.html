@@ -75,8 +75,7 @@
 								<tr>
 									<td><label for="ddlCategorias">Categoría:</label></td>
 									<td>
-										<select id="ddlCategorias" name="ddlCategorias" required>
-										</select>
+										<select id="ddlCategorias" name="ddlCategorias" required></select>
 									</td>
 								</tr>
 								<tr>
@@ -93,11 +92,11 @@
 								</tr>
 								<tr>
 									<td><label>Descripción:</label></td>
-									<td><textarea id="txtDescripcion" rows="3" cols="50" placeholder="Descripción del producto" required></textarea></td>									
+									<td><textarea id="txtDescripcion" rows="5" cols="50" placeholder="Descripción del producto" required></textarea></td>									
 								</tr>
 								<tr>
 									<td><label>Especificaciones:</label></td>
-									<td><textarea id="txtEspecificaciones" rows="3" cols="50" placeholder="Especificaciones técnicas" required></textarea></td>
+									<td><textarea id="txtEspecificaciones" rows="5" cols="50" placeholder="Especificaciones técnicas" required></textarea></td>
 								</tr>
 								<tr>
 									<td><label>Valor:</label></td>
@@ -109,9 +108,8 @@
 								</tr>
 								<tr>
 									<td><label>Url Imagen:</label></td>
-									<td><input id="txtUrlImagen" type="text" placeholder="Url Imagen" required></td>
-								</tr>	
-								<!-- 	<td><input id="txtCategoria" type="text" placeholder="Categoría" required></td> -->
+									<td><textarea id="txtUrlImagen" rows="3" cols="50" placeholder="Url Imagen" required></textarea></td>
+								</tr>
 							</table>
 
 							<button type="submit" class="btn btn-succes" style="display: inline-block;">Crear</button>
@@ -121,22 +119,59 @@
 
 					<div id="divEditarProducto" class="signup-form" style="display: none;">
 						<h2>Editar Producto</h2>
-						<form id="frmEditar" action="javascript: EditarProducto()">
-							<td><input id="txtNomProductoEdit" type="text" placeholder="Nombre Producto" required />
-							</td>
-							<td><input id="txtReferenciaEdit" type="text" placeholder="Referencia" required /></td>
-							<td><input id="txtMarcaEdit" type="text" placeholder="Marca" required /></td>
-							<td><input id="txtDescripcionEdit" type="text" placeholder="Descripción" required /></td>
-							<td><input id="txtEspecificacionesEdit" type="text" placeholder="Especificaciones"
-									required /></td>
-							<td><input id="txtValorEdit" type="text" placeholder="Valor" required /></td>
-							<td><input id="txtDisponibilidadEdit" type="text" placeholder="Disponibilidad" required />
-							</td>
-							<td><input id="txtUrlImagenEdit" type="text" placeholder="Url Imagen" required></td>
-							<td><input id="txtCategoriaEdit" type="text" placeholder="Categoría" required></td>
-
+						<form id="frmEditar" method="POST" action="javascript: ActualizarProducto()">
+							<table width="80%">
+								<tr>
+									<td><label for="ddlProductos">Producto:</label></td>
+									<td>
+										<select id="ddlProductos" name="ddlProductos" onchange="javascript: SetDataByProductId()" required>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td><input class="hidden" id="txtIdProductoEdit" type="text" placeholder="Id del Producto" disabled /></td>
+								</tr>
+								<tr>
+									<td><label>Nombre:</label></td>
+									<td><input id="txtNomProductoEdit" type="text" required /></td>
+								</tr>
+								<tr>
+									<td><label for="ddlCategoriasEdit">Categoría:</label></td>
+									<td>
+										<select id="ddlCategoriasEdit" name="ddlCategoriasEdit" required></select>
+									</td>
+								</tr>
+								<tr>
+									<td><label>Referencia:</label></td>
+									<td><input id="txtReferenciaEdit" type="text" required /></td>
+								</tr>
+								<tr>
+									<td><label>Marca:</label></td>
+									<td><input id="txtMarcaEdit" type="text" required /></td>
+								</tr>
+								<tr>
+									<td><label>Descripción:</label></td>
+									<td><textarea id="txtDescripcionEdit" rows="5" cols="50" required></textarea></td>
+								</tr>
+								<tr>
+									<td><label>Especificaciones:</label></td>
+									<td><textarea id="txtEspecificacionesEdit" rows="5" cols="50" required></textarea></td>
+								</tr>
+								<tr>
+									<td><label>Valor:</label></td>
+									<td><input id="txtValorEdit" onkeyup="javascript: formatCurrency(this)" type="text" required /></td>
+								</tr>
+								<tr>
+									<td><label>Disponibilidad:</label></td>
+									<td><input id="txtDisponibilidadEdit" type="number" required /></td>
+								</tr>
+								<tr>
+									<td><label>Url Imagen:</label></td>
+									<td><textarea id="txtUrlImagenEdit" rows="3" cols="50" required></textarea></td>
+								</tr>
+							</table>
 							<button type="submit" class="btn btn-succes" style="display: inline-block;">Actualizar</button>
-							<button type="submit" class="btn btn-succes" style="display: inline-block;">Eliminar</button>
+							<button type="button" class="btn btn-succes" style="display: inline-block;" onclick="EliminarProducto()">Eliminar</button>
 							<button type="reset" class="btn btn-default" style="display: inline-block;">Limpiar</button>
 						</form>
 					</div>

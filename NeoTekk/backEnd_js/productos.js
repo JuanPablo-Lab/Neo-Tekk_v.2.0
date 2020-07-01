@@ -29,7 +29,7 @@ function injectProducts(results) {
   if (!results) {
     window.location = "ProductoNoEncontrado.html";
   }
-
+  
   if (typeof document != 'undefined') {
     var productList = document.getElementById("productList");
     productList.innerHTML = results;
@@ -43,7 +43,7 @@ function getProductsBy(filter, value, resultHandler) {
   var title = "";
   if (filter) {
     query.matches(filter, "(?i).{0,}(" + value + ").{0,}")
-    title = value + "...";
+    title = "* " + value + " *";
   } else {
     title = "Productos";
   }
@@ -70,10 +70,8 @@ function createProductItem(value, index, array) {
       "<div class=\"single-products\">" +
         "<div class=\"productinfo text-center\">" +
           "<img id=\"imgProducto_" + index + "\" " +
-            "src=\"" + value.attributes["photoUrl"] + "\" alt=\"\"" +
-            " style=\"width: auto; height: auto; max-width: 120px; max-height: 120px;\"" +
-            "/>" +
-              "<h2 id=\"precioProducto_" + index + ">" + value.attributes["value"] + "</h2>" +
+            "src=\"" + value.attributes["photoUrl"] + "\" alt=\"\" />" +
+              "<h2 id=\"precioProducto_" + index + "\">" + FormatoMoneda(value.attributes["value"]) + "</h2>" +
               "<p id=\"nombreProducto_" + index + "\">" + value.attributes["name"] + "</p>" +
               "<p><a href=\"DetalleProducto.html?id="+ value.id + "\"><i class=\"fa fa-plus-square\"></i> Ver Especificaciones</a></p>" +
               "<a class=\"btn btn-default add-to-cart\" onclick=\"AgregarAlCarrito('" + 
@@ -90,10 +88,6 @@ function createProductItem(value, index, array) {
 
   return result
 }
-
-
-
-
 
 
 //Función para filtrar productos por marca
