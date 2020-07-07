@@ -5,6 +5,7 @@ function signUp() {
          var user = new Parse.User();
 
         user.set("username", $('#txtEmail').val());
+        user.set("email", $('#txtEmail').val());
         user.set("firstName", $('#txtUserName').val());
         user.set("lastName", $('#txtUserApellido').val());
         user.set("identificationType", $('#ddlTipoIdentificacion').val());
